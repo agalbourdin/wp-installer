@@ -261,7 +261,7 @@ success "OK"
 echo "Renaming wp-content..."
 
 sed -i "s/'WP_CONTENT_FOLDERNAME', ''/'WP_CONTENT_FOLDERNAME', '$WPCONTENT'/g" $WPCONFIG
-sed -i "s#/wp-content/#/$WPCONTENT/#g" $GITIGNORE
+sed -i "s#wp-content/#$WPCONTENT/#g" $GITIGNORE
 if [ "$WPCONTENT" != "wp-content" ]; then
     mv $DESTINATION"wp-content/" $DESTINATION$WPCONTENT"/"
 fi
