@@ -1,7 +1,9 @@
 # Ignore main WordPress and Composer directories and files.
-/vendor/
-/wp-content/uploads/*
+vendor/
+wp-content/uploads/*
 .DS_Store
 
 # Custom theme
-/wp-content/themes/THEME/.sass-cache/
+wp-content/themes/*
+!wp-content/themes/THEME/
+wp-content/themes/THEME/.sass-cache/
