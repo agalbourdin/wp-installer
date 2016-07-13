@@ -8,12 +8,12 @@ add_action('wp_enqueue_scripts', 'registerFrontDeps');
 function registerFrontDeps()
 {
     $styles = array(
-        'normalize' => array('path' => '/css/normalize.min.css', 'version' => '3.0.0'),
+        'normalize' => array('path' => '/css/normalize.min.css', 'version' => '3.0.3'),
         'main'      => array('path' => '/css/main.css', 'version' => '1.0')
     );
     $scripts = array(
-        'jquery'    => array('path' => '/js/jquery-1.11.0.min.js', 'footer' => true, 'version' => '1.11.0'),
-        'modernizr' => array('path' => '/js/modernizr-2.7.1.min.js', 'footer' => false, 'version' => '2.7.1'),
+        'jquery'    => array('path' => '/js/jquery-1.12.2.min.js', 'footer' => true, 'version' => '1.12.2'),
+        'modernizr' => array('path' => '/js/modernizr-2.8.3.min.js', 'footer' => false, 'version' => '2.8.3'),
     );
 
     $bodyClass = get_body_class();
@@ -96,7 +96,7 @@ if (function_exists('register_sidebar')) {
 }
 
 /**
- * Remove meta boxes from Wordpress dashboard
+ * Remove meta boxes from Wordpress dashboard.
  */
 add_action('wp_dashboard_setup', 'dashboardRemoveBoxes');
 function dashboardRemoveBoxes()
@@ -157,7 +157,7 @@ function phpMailerInitSmtp(PHPMailer $phpmailer)
 }
 
 /**
- * Helpers
+ * Helpers.
  */
 require(TEMPLATEPATH . '/helpers.php');
 require(TEMPLATEPATH . '/helpers_admin.php');

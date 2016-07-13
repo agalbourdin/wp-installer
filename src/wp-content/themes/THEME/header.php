@@ -1,45 +1,46 @@
-<!DOCTYPE html>
-<html class="no-js">
-<head>
-	<meta charset="utf-8">
-	<title><?php is_home() ? bloginfo('name') : wp_title('') ?></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+    	<meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+    	<title><?php is_home() ? bloginfo('name') : wp_title('') ?></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<?php
-	if (is_search()) {
-		?>
-		<meta name="robots" content="noindex, nofollow">
-		<?php
-	}
+    	<?php
+    	if (is_search()) {
+    		?>
+    		<meta name="robots" content="noindex, nofollow">
+    		<?php
+    	}
 
-	if (is_singular()) {
-        wp_enqueue_script('comment-reply');
-    }
-	?>
+    	if (is_singular()) {
+            wp_enqueue_script('comment-reply');
+        }
+    	?>
 
-    <?php function_exists('filterHead') ? filterHead() : wp_head() ?>
+        <?php function_exists('filterHead') ? filterHead() : wp_head() ?>
 
-	<script>
-        var HOME_URL     = '<?php echo home_url() ?>/';
-        var TEMPLATE_URL = '<?php echo get_template_directory_uri() ?>/';
-    </script>
+    	<script>
+            var HOME_URL     = '<?php echo home_url() ?>/';
+            var TEMPLATE_URL = '<?php echo get_template_directory_uri() ?>/';
+        </script>
 
-    <link rel="shortcut icon" href="<?php echo home_url() ?>/favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" sizes="144x144" href="<?php echo get_template_directory_uri() ?>/img/apple-touch-icon-precomposed.png">
-</head>
+        <link rel="shortcut icon" href="<?php echo home_url() ?>/favicon.ico" type="image/x-icon">
+        <link rel="apple-touch-icon" href="<?php echo home_url() ?>/apple-touch-icon.png">
+    </head>
 
-<body <?php body_class() ?>>
+    <body <?php body_class() ?>>
 
-	<header>
-		<nav>
-            <?php
-            wp_nav_menu(array(
-                'theme_location'  => 'header',
-                'container_class' => 'inner'
-            ));
-            ?>
-        </nav>
-	</header>
+    	<header>
+    		<nav>
+                <?php
+                wp_nav_menu(array(
+                    'theme_location'  => 'header',
+                    'container_class' => 'inner'
+                ));
+                ?>
+            </nav>
+    	</header>
 
-	<div id="page">
-        <section id="content">
+    	<div id="page">
+            <section id="content">

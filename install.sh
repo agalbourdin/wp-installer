@@ -110,8 +110,17 @@ echo ""
 read -p 'Limit Posts Revisions [false] > ' REVISIONS
 if [ "$REVISIONS" = "" ] || [ "$REVISIONS" = "false" ] || [ "$REVISIONS" = "0" ]; then
     REVISIONS="false"
-elif ! [[ "$REVISIONS" =~ '^[0-9]+$' ]]; then
+elif ! [[ $REVISIONS =~ ^[0-9]+$ ]]; then
     error "You must enter a number"
+fi
+
+echo ""
+
+read -p 'Install Plugins: ACF, iTheme Security, Yoast SEO [y/N] > ' PLUGINS
+if [ "$PLUGINS" = "" ] || [ "$PLUGINS" = "n" ] || [ "$PLUGINS" = "N" ]; then
+    PLUGINS="false"
+else
+    PLUGINS="true"
 fi
 
 echo ""
@@ -143,7 +152,7 @@ echo ""
 # Merge WordPress files with custom application
 ###
 
-echo "Merging application..."
+echo "Merging Application..."
 
 rsync -aEW $DESTINATION"src/" $DESTINATION
 
@@ -153,7 +162,7 @@ success "OK"
 # Set WPLANG in wp-config.php
 ###
 
-echo "Setting locale..."
+echo "Setting Locale..."
 
 WPCONFIG=$DESTINATION"wp-config.php"
 sed -i "s/'WPLANG', ''/'WPLANG', '$LOCALE'/g" $WPCONFIG
@@ -164,7 +173,7 @@ success "OK"
 # Set database configuration and site URL in wp-config.php
 ###
 
-echo "Configuring database..."
+echo "Configuring DB..."
 
 sed -i "s/'DB_NAME', ''/'DB_NAME', '$DBNAME'/g" $WPCONFIG
 sed -i "s/'DB_USER', ''/'DB_USER', '$DBUSER'/g" $WPCONFIG
@@ -179,7 +188,7 @@ success "OK"
 # Set Posts Revisions limit
 ###
 
-echo "Configuring posts revisions..."
+echo "Configuring Posts Revisions..."
 
 sed -i "s/'WP_POST_REVISIONS', false/'WP_POST_REVISIONS', $REVISIONS/g" $WPCONFIG
 
@@ -189,7 +198,7 @@ success "OK"
 # Generate random table prefix and add it to wp-config.php
 ###
 
-echo "Generating database prefix..."
+echo "Generating DB Prefix..."
 
 PREFIX=`genpasswd 5 0`
 sed -i "s/$table_prefix  = ''/$table_prefix  = '${PREFIX}_'/g" $WPCONFIG
@@ -200,7 +209,7 @@ success "OK"
 # Rename theme
 ###
 
-echo "Setting theme..."
+echo "Setting Directories..."
 
 GITIGNORE=$DESTINATION".gitignore"
 sed -i "s/'WP_DEFAULT_THEME', ''/'WP_DEFAULT_THEME', '$THEME'/g" $WPCONFIG
@@ -213,7 +222,7 @@ success "OK"
 # Generate and set security keys in wp-config.php
 ###
 
-echo "Generating security keys..."
+echo "Generating Security Keys..."
 
 KEY=`genpasswd 65`
 sed -i "s/'AUTH_KEY', ''/'AUTH_KEY', '$KEY'/g" $WPCONFIG
@@ -263,7 +272,7 @@ success "OK"
 # Install WordPress database with auto-generated administrator password
 ###
 
-echo "Installing database..."
+echo "Installing DB..."
 
 sed -i "s/'MAIL_FROM', ''/'MAIL_FROM', '$ADMINMAIL'/g" $WPCONFIG
 
@@ -276,7 +285,7 @@ echo ""
 # Set permalink structure to %postname%
 ###
 
-echo "Updating permalink structure..."
+echo "Updating Permalink Structure..."
 
 php wp-cli.phar option update "permalink_structure" "%postname%"
 
@@ -286,7 +295,7 @@ echo ""
 # Create header and footer menus
 ###
 
-echo "Creating menus..."
+echo "Creating Menus..."
 
 php wp-cli.phar db query "INSERT INTO \`${PREFIX}_options\` (\`option_name\`, \`option_value\`, \`autoload\`) VALUES ('theme_mods_$THEME', 'a:1:{s:18:\"nav_menu_locations\";a:2:{s:6:\"header\";i:2;s:6:\"footer\";i:3;}}', 'yes')"
 php wp-cli.phar db query "INSERT INTO \`${PREFIX}_term_taxonomy\` (\`term_taxonomy_id\`, \`term_id\`, \`taxonomy\`, \`description\`, \`parent\`, \`count\`) VALUES (2, 2, 'nav_menu', '', 0, 0)"
@@ -300,7 +309,7 @@ success "OK"
 # Close comments and pingback
 ###
 
-echo "Closing comments..."
+echo "Closing Comments..."
 
 php wp-cli.phar option update "default_comment_status" "closed"
 php wp-cli.phar option update "default_ping_status" "closed"
@@ -316,7 +325,7 @@ echo ""
 # Change administrator ID
 ###
 
-echo "Updating administrator ID..."
+echo "Updating Administrator ID..."
 
 php wp-cli.phar db query "UPDATE \`${PREFIX}_users\` SET \`ID\` = 2 WHERE \`ID\` = 1"
 php wp-cli.phar db query "UPDATE \`${PREFIX}_usermeta\` SET \`user_id\` = 2 WHERE \`user_id\` = 1"
@@ -327,7 +336,7 @@ success "OK"
 # Timezone
 ###
 
-echo "Setting timezone..."
+echo "Setting Timezone..."
 
 php wp-cli.phar option update "gmt_offset" ""
 php wp-cli.phar option update "timezone_string" $TIMEZONE
@@ -338,7 +347,7 @@ echo ""
 # Media size to 0
 ###
 
-echo "Resetting media size..."
+echo "Resetting Media Size..."
 
 php wp-cli.phar option update "thumbnail_size_w" "0"
 php wp-cli.phar option update "thumbnail_size_h" "0"
@@ -354,32 +363,31 @@ echo ""
 # Install plugins
 ###
 
-#echo "Installing plugins..."
-#echo ""
+if [ "$PLUGINS" = "true" ]; then
+    echo "Installing Plugins..."
+    echo ""
 
-#php wp-cli.phar plugin install capability-manager-enhanced
-#echo ""
+    php wp-cli.phar plugin install wordpress-seo
+    echo ""
 
-#php wp-cli.phar plugin install --activate export-user-data
-#echo ""
+    php wp-cli.phar plugin install better-wp-security
+    echo ""
 
-#php wp-cli.phar plugin install --activate filters
-#echo ""
+    php wp-cli.phar plugin install advanced-custom-fields
+    echo ""
+fi
 
-#php wp-cli.phar plugin install pods
-#echo ""
+echo "Deleting Hello Dolly..."
+echo ""
 
-#php wp-cli.phar plugin install wordpress-seo
-#echo ""
-
-#php wp-cli.phar plugin install --activate better-wp-security
-#echo ""
+php wp-cli.phar plugin uninstall hello
+echo ""
 
 ###
 # Remove temporary files
 ###
 
-echo "Removing temporary files..."
+echo "Removing Temporary Files..."
 
 rm -rf $DESTINATION"src/"
 rm "README.md" "install.sh" "wp-cli.phar"
@@ -390,4 +398,4 @@ success "OK"
 # Display administrator password
 ###
 
-section "Your administrator password is: $PASSWORD"
+section "Done! Your administrator password is: $PASSWORD"

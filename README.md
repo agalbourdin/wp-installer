@@ -1,7 +1,7 @@
 WordPress Installer
 ===================
 
-Install and configure a new WordPress website, with a custom blank theme.
+Install and configure a new WordPress website, with a blank theme.
 
 Execute `./install.sh` to run installer.
 
@@ -12,7 +12,7 @@ Make sure `install.sh` is executable (`chmod +x install.sh`).
 ### Download & Install WordPress
 
 * Install the latest stable release of WordPress in the desired locale
-* Merge source files with the base application located in `src`
+* Merge source files with the blank theme located in `src`
 
 ### Configure WordPress
 
@@ -26,10 +26,12 @@ Make sure `install.sh` is executable (`chmod +x install.sh`).
 * Permalink configuration and menus initialization (header and footer)
 * Comments disabled by default
 * Reset default image sizes (auto-resize disabled)
+* Uninstall Hello Dolly
+* Optionally: Install `Advanced Custom Fields`, `iThemes Security` and `Yoast SEO`
 
 ## Theme
 
-HTML5 ready blank theme with [HTML 5 Boilerplate](https://github.com/h5bp/html5-boilerplate). This theme include:
+Blank theme based on [HTML 5 Boilerplate](https://github.com/h5bp/html5-boilerplate). This theme include:
 
 * Favicon, Apple Touch Icon, Normalize.css, jQuery, Modernizr
 * `<head>` cleaned from comments, WP versions, feeds...

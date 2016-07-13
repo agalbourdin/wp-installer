@@ -1,25 +1,22 @@
-	   </section>
-    </div>
+    	   </section>
+        </div>
 
-    <footer>
-        <?php
-        wp_nav_menu(array(
-            'theme_location' => 'footer',
-            'container'      => 'nav'
-        ));
-        ?>
-    </footer>
+        <footer>
+            <?php
+            wp_nav_menu(array(
+                'theme_location' => 'footer',
+                'container'      => 'nav'
+            ));
+            ?>
+        </footer>
 
-	<?php wp_footer() ?>
+    	<?php wp_footer() ?>
 
-	<script>
-        (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-        function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-        e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-        e.src='//www.google-analytics.com/analytics.js';
-        r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-        ga('create','UA-XXXXX-X');ga('send','pageview');
-    </script>
+    	<script>
+            window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
+            ga('create','UA-XXXXX-Y','auto');ga('send','pageview')
+        </script>
+        <script src="https://www.google-analytics.com/analytics.js" async defer></script>
 
-</body>
+    </body>
 </html>
